@@ -3,7 +3,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key key}) : super(key: key);
@@ -87,9 +86,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                 child: FFButtonWidget(
-                  onPressed: () {
-                    print('Button pressed ...');
-                  },
+                  onPressed: () async {},
                   text: 'Verificar',
                   options: FFButtonOptions(
                     width: 130,
@@ -106,6 +103,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     borderRadius: 12,
                   ),
                 ),
+              ),
+              Divider(
+                thickness: 1,
+                color: Color(0xFF6B6868),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -172,21 +173,30 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                child: LinearPercentIndicator(
-                  percent: 0.5,
-                  width: 250,
-                  lineHeight: 24,
-                  animation: true,
-                  progressColor: FlutterFlowTheme.of(context).primaryColor,
-                  backgroundColor: Color(0xFFF1F4F8),
-                  center: Text(
-                    '50%',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                child: FFButtonWidget(
+                  onPressed: () {
+                    print('Button pressed ...');
+                  },
+                  text: 'Reiniciar',
+                  options: FFButtonOptions(
+                    width: 130,
+                    height: 40,
+                    color: Color(0xFFEF7A39),
+                    textStyle: FlutterFlowTheme.of(context).subtitle2.override(
                           fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.of(context).primaryColor,
+                          color: Colors.white,
                         ),
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: 12,
                   ),
                 ),
+              ),
+              Divider(
+                thickness: 1,
+                color: Color(0xFF6B6868),
               ),
             ],
           ),
