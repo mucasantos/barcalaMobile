@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -16,11 +18,15 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  int secretNumber;
+  int userLife = 20;
+  int highScore = 0;
 
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
+    secretNumber = actions.generateNumber();
   }
 
   @override
@@ -49,9 +55,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Image.asset(
-                'assets/images/guess.gif',
-                fit: BoxFit.cover,
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    userLife == 0
+                        ? 'assets/images/lose.gif'
+                        : 'assets/images/guess.gif',
+                    fit: BoxFit.contain,
+                    height: 250,
+                  ),
+                ),
               ),
               Text(
                 'Digite o número',
@@ -65,6 +80,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: TextFormField(
                   controller: textController,
                   obscureText: false,
+                  maxLength: 2,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -85,17 +102,68 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
               ),
               Text(
-                valueOrDefault<String>(
-                  functions.generatenumber().toString(),
-                  '0',
-                ),
+                "Digite um número entre 1 e 20",
                 style: FlutterFlowTheme.of(context).bodyText1,
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    await actions.generateNumber();
+                    // await actions.generateNumber();
+                    if (textController.text.isEmpty) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                'Você precisa digitar um número!!',
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'))
+                              ],
+                            );
+                          });
+                      return;
+                    }
+
+                    if (secretNumber == int.parse(textController.text)) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/win.gif',
+                                  width: double.infinity,
+                                  // height: 200,
+                                  fit: BoxFit.cover,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Continuar'))
+                              ],
+                            );
+                          });
+                      setState(() {
+                        highScore = highScore + userLife;
+
+                        secretNumber = actions.generateNumber();
+                      });
+                    } else {
+                      log('São diferentes...!!');
+                      setState(() {
+                        userLife--;
+                      });
+                    }
+                    log(secretNumber.toString());
+
+                    textController.clear();
                   },
                   text: 'Verificar',
                   options: FFButtonOptions(
@@ -142,7 +210,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                         ),
                         Text(
-                          '00',
+                          highScore.toString(),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',
@@ -154,10 +222,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Image.network(
-                          'https://st.depositphotos.com/1621958/1282/v/600/depositphotos_12825711-stock-illustration-perfect-red-heart-vector-isolated.jpg',
+                        Image.asset(
+                          'assets/images/heart1.png',
                           width: 100,
                           height: 100,
+                          color: Colors.red.withOpacity(userLife / 2 * 0.1),
                           fit: BoxFit.cover,
                         ),
                         Text(
@@ -169,7 +238,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                         ),
                         Text(
-                          '20',
+                          userLife.toString(),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',
@@ -185,7 +254,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                 child: FFButtonWidget(
                   onPressed: () {
-                    print('Button pressed ...');
+                    setState(() {
+                      textController.clear();
+                      secretNumber = actions.generateNumber();
+                      userLife = 20;
+                    });
                   },
                   text: 'Reiniciar',
                   options: FFButtonOptions(
