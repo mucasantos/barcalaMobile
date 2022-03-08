@@ -6,7 +6,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'lat_lng.dart';
 import 'place.dart';
 
-int generateNumber() {
+int generatenumber() {
   // Add your function code here!
 
   int secretNumber = math.Random().nextInt(20) + 1;

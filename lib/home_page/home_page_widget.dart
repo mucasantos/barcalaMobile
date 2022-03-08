@@ -1,6 +1,8 @@
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../custom_code/actions/index.dart' as actions;
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,9 +49,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Image.network(
-                'http://www.learningaboutelectronics.com/images/Guess-a-number-from-1-to-10.png',
-                width: double.infinity,
+              Image.asset(
+                'assets/images/guess.gif',
                 fit: BoxFit.cover,
               ),
               Text(
@@ -83,10 +84,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   style: FlutterFlowTheme.of(context).bodyText1,
                 ),
               ),
+              Text(
+                valueOrDefault<String>(
+                  functions.generatenumber().toString(),
+                  '0',
+                ),
+                style: FlutterFlowTheme.of(context).bodyText1,
+              ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                 child: FFButtonWidget(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    await actions.generateNumber();
+                  },
                   text: 'Verificar',
                   options: FFButtonOptions(
                     width: 130,
